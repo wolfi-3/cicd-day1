@@ -1,4 +1,4 @@
-from calc import add, divide
+from calc import add, divide, subtract
 import pytest
 
 
@@ -7,7 +7,7 @@ def test_add():
 
 
 def test_subtract():
-    assert subtract(10. 5) == 5
+    assert subtract(10, 5) == 5
 
 
 def test_divide():
