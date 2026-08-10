@@ -1,5 +1,6 @@
 from calc import add, divide, subtract
 import pytest
+import random
 import time
 
 
@@ -25,3 +26,4 @@ def test_flaky_timing():
     time.sleep(0.01)
     elapsed = time.time() - start
     assert elapsed < 0.015
+    assert random.random() > 0.5
