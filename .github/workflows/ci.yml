@@ -47,6 +47,7 @@ jobs:
   docker:
     needs: [lint, test]
     runs-on: ubuntu-latest
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
 
     permissions:
       contents: read
@@ -65,8 +66,10 @@ jobs:
 
       - name: Build Docker image
         run: |
-          docker build -t ghcr.io/${{ github.repository }}:v1.0.0 .
+          docker build -t ghcr.io/${{ github.repository }}:${{ github.sha }} .
+          docker build -t ghcr.io/${{ github.repository }}:latest .
 
       - name: Push Docker image
         run: |
-          docker push ghcr.io/${{ github.repository }}:v1.0.0
+          docker push ghcr.io/${{ github.repository }}:${{ github.sha }}
+          docker push ghcr.io/${{ github.repository }}:latest
