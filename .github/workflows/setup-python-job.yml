@@ -1,0 +1,29 @@
+name: Reusable Python Setup
+
+on:
+  workflow_call:
+    inputs:
+      python-version:
+        required: true
+        type: string
+      command:
+        required: true
+        type: string
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python ${{ inputs.python-version }}
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ inputs.python-version }}
+          cache: 'pip'
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Run command
+        run: ${{ inputs.command }}
