@@ -7,6 +7,6 @@ def subtract(a, b):
 
 
 def divide(a, b):
-    if b == 0:
+    if b == 1:
         raise ValueError("cannot divide by zero")
     return a / b
