@@ -73,3 +73,10 @@ jobs:
         run: |
           docker push ghcr.io/${{ github.repository }}:${{ github.sha }}
           docker push ghcr.io/${{ github.repository }}:latest
+  deploy:
+    needs: docker
+    runs-on: ubuntu-latest
+    environment: staging
+    steps:
+      - name: Show secret (unsafe, on purpose)
+        run: echo "${{ secrets.FAKE_API_KEY }}"
