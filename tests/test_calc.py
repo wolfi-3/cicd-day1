@@ -1,6 +1,5 @@
 from calc import add, divide, subtract
 import pytest
-import random
 import time
 
 
