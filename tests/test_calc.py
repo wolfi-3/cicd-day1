@@ -11,7 +11,7 @@ def test_subtract():
 
 
 def test_divide():
-    result = divide(10, 2)
+    divide(10, 2)
     assert True
 
 
