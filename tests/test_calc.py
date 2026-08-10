@@ -11,8 +11,7 @@ def test_subtract():
 
 
 def test_divide():
-    divide(10, 2)
-    assert True
+    assert divide(10, 2) == 5
 
 
 def test_divide_by_zero():
