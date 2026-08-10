@@ -1,0 +1,28 @@
+Syntax Definitions
+
+  name: CI
+      Meaning: the display name for this workflow, shown at the top of the Actions tab and on the badge.
+      Use here: purely cosmetic, but it's what you saw in "add CI workflow" and later "split lint and test into separate
+      jobs" — no, actually those are commit messages. The workflow's own name: CI is what shows as the small "CI" label in
+      the Actions sidebar and in ci.yml badge.svg.
+
+  on:
+      Meaning: defines which GitHub events trigger this workflow to run at all. Without on:, nothing ever fires.
+      Use here: two separate triggers.
+      push: branches: [main] — runs whenever a commit lands directly on main (including via merge).
+      pull_request: branches: [main] — runs whenever a PR is opened or updated targeting main.
+
+  jobs:
+      Meaning: the top-level container for everything the workflow actually does. Each key under jobs: (lint, test) is
+      an independent unit of work. Use here: originally you had one job (test) doing everything. Day 2 split it into lint
+      and test as two separate top-level jobs — this is what made them show up as two independent boxes in the Actions UI,
+      each with its own pass/fail status.
+
+        lint (own words)
+          -for checking ng code if it does look/work according to coding rules
+
+        Test (own words)
+          -for checking if the application behave correctly
+
+
+
