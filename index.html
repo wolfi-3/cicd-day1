@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>cicd-day1 calculator</title>
+<style>
+  body {
+    margin: 0;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, #ffe6f0, #e6f0ff);
+    font-family: 'Comic Sans MS', 'Segoe UI', sans-serif;
+  }
+  .card {
+    background: #fff;
+    border-radius: 24px;
+    padding: 32px 28px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    width: 300px;
+    text-align: center;
+  }
+  h1 { font-size: 20px; margin: 0 0 4px; }
+  .sub { color: #999; font-size: 12px; margin-bottom: 20px; }
+  input {
+    width: 100%;
+    padding: 10px;
+    margin: 6px 0;
+    border-radius: 12px;
+    border: 2px solid #ffd6e8;
+    box-sizing: border-box;
+    font-size: 15px;
+    text-align: center;
+  }
+  .ops { display: flex; gap: 8px; margin: 12px 0; }
+  .ops button {
+    flex: 1;
+    padding: 10px 0;
+    border: none;
+    border-radius: 12px;
+    background: #ffd6e8;
+    cursor: pointer;
+    font-size: 16px;
+    transition: transform 0.15s;
+  }
+  .ops button:hover { transform: scale(1.08); background: #ffb3d1; }
+  .ops button.active { background: #ff8fb3; color: #fff; }
+  #result {
+    margin-top: 16px;
+    font-size: 24px;
+    font-weight: bold;
+    color: #ff6699;
+    min-height: 32px;
+  }
+  #error { color: #cc3355; font-size: 12px; min-height: 16px; }
+  footer { margin-top: 14px; font-size: 10px; color: #bbb; }
+</style>
+</head>
+<body>
+  <div class="card">
+    <h1>🧮 cicd-day1</h1>
+    <div class="sub">same logic as calc.py, in your browser</div>
+
+    <input type="number" id="a" placeholder="a" value="10">
+    <div class="ops">
+      <button data-op="add">+</button>
+      <button data-op="subtract">−</button>
+      <button data-op="divide">÷</button>
+    </div>
+    <input type="number" id="b" placeholder="b" value="2">
+
+    <div id="result">—</div>
+    <div id="error"></div>
+
+    <footer>built during a very long, very worth-it week</footer>
+  </div>
+
+<script>
+  // mirrors calc.py exactly
+  function add(a, b) { return a + b; }
+  function subtract(a, b) { return a - b; }
+  function divide(a, b) {
+    if (b === 0) throw new Error("cannot divide by zero");
+    return a / b;
+  }
+
+  const ops = { add, subtract, divide };
+  let activeOp = "add";
+
+  document.querySelectorAll(".ops button").forEach(btn => {
+    btn.addEventListener("click", () => {
+      document.querySelectorAll(".ops button").forEach(b => b.classList.remove("active"));
+      btn.classList.add("active");
+      activeOp = btn.dataset.op;
+      compute();
+    });
+  });
+
+  document.getElementById("a").addEventListener("input", compute);
+  document.getElementById("b").addEventListener("input", compute);
+
+  function compute() {
+    const a = parseFloat(document.getElementById("a").value);
+    const b = parseFloat(document.getElementById("b").value);
+    const resultEl = document.getElementById("result");
+    const errorEl = document.getElementById("error");
+    errorEl.textContent = "";
+
+    if (isNaN(a) || isNaN(b)) {
+      resultEl.textContent = "—";
+      return;
+    }
+    try {
+      resultEl.textContent = ops[activeOp](a, b);
+    } catch (e) {
+      resultEl.textContent = "—";
+      errorEl.textContent = e.message;
+    }
+  }
+
+  document.querySelector('[data-op="add"]').classList.add("active");
+  compute();
+</script>
+</body>
+</html>
